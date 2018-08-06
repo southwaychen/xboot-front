@@ -103,7 +103,7 @@
                   <Input v-model="userForm.avatar" placeholder="可直接填入网络图片链接" clearable style="width: 280px"/>
                   <Button @click="viewPic(userForm.avatar)" type="ghost" icon="eye" class="view-pic">预览图片</Button>
                   <Upload action="/xboot/upload/file"
-                          :headers="accessToken" 
+                          :headers="accessToken"
                           :on-success="handleSuccess"
                           :format="['jpg','jpeg','png','gif']"
                           :max-size="5120"
@@ -486,20 +486,20 @@ export default {
       this.loading = true;
       this.getRequest("/user/getByCondition", this.searchForm).then(res => {
         this.loading = false;
-        if (res.success === true) {
-          this.data = res.result.content;
-          this.total = res.result.totalElements;
+        if (res.code === '00000000') {
+          this.data = res.data.list;
+          this.total = res.data.total;
         }
       });
     },
     handleSearch() {
-      this.searchForm.pageNumber = 1;
+      this.searchForm.pageNum = 1;
       this.searchForm.pageSize = 10;
       this.init();
     },
     handleReset() {
       this.$refs.searchForm.resetFields();
-      this.searchForm.pageNumber = 1;
+      this.searchForm.pageNum = 1;
       this.searchForm.pageSize = 10;
       // 重新加载数据
       this.init();
@@ -514,8 +514,8 @@ export default {
     },
     getRoleList() {
       this.getRequest("/role/getAllList").then(res => {
-        if (res.success === true) {
-          this.roleList = res.result;
+        if (res.code === '00000000') {
+          this.roleList = res.data;
         }
       });
     },

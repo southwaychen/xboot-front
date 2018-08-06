@@ -5,7 +5,7 @@
     <div class="search">
         <Row>
             <Col>
-                <Card>     
+                <Card>
                     <Row class="operation">
                         <Button @click="addRole" type="primary" icon="plus-round">添加角色</Button>
                         <Button @click="delAll" type="ghost" icon="trash-a">批量删除</Button>

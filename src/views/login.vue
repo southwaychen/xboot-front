@@ -175,6 +175,7 @@ export default {
                 setStore("accessToken", res.data.accessToken);
                 // 获取用户信息
                 this.getRequest("/user/info").then(res => {
+
                   if (res.code === '00000000') {
                     // 避免超过大小限制
                     delete res.data.permissions;

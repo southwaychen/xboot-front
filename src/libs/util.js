@@ -267,7 +267,6 @@ util.initRouter = function (vm) {
 
     // 加载菜单
     axios.get("/xboot/permission/getMenuList/" + adminId).then(res => {
-      debugger;
         let menuData = res.data;
         if (menuData === null || menuData === "" || menuData === undefined) {
             return;
