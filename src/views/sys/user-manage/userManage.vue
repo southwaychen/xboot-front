@@ -617,7 +617,6 @@ export default {
       this.userModalVisible = true;
     },
     edit(v) {
-        debugger
       this.modalType = 1;
       this.modalTitle = "编辑用户";
       this.$refs.userForm.resetFields();
