@@ -331,7 +331,7 @@ export default {
         },
         {
           title: "创建时间",
-          key: "createTime",
+          key: "createdTime",
           sortable: true,
           sortType: "desc",
           width: 150
