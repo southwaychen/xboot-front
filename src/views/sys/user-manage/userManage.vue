@@ -74,7 +74,7 @@
                         <Table :columns="columns" :data="exportData" ref="exportTable" style="display:none"></Table>
                     </Row>
                     <Row type="flex" justify="end" class="code-row-bg page">
-                        <Page :current="this.searchForm.pageNumber" :total="total" :page-size="this.searchForm.pageSize" @on-change="changePage" @on-page-size-change="changePageSize" :page-size-opts="[10,20,50,100]" size="small" show-total show-elevator show-sizer></Page>
+                        <Page :current="this.searchForm.pageNum" :total="total" :page-size="this.searchForm.pageSize" @on-change="changePage" @on-page-size-change="changePageSize" :page-size-opts="[10,20,50,100]" size="small" show-total show-elevator show-sizer></Page>
                     </Row>
                 </Card>
             </Col>
@@ -123,7 +123,7 @@
                 </FormItem>
                 <FormItem label="角色分配" prop="roles">
                   <Select v-model="userForm.roles" multiple @on-change="selectRoles">
-                      <Option v-for="item in roleList" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                      <Option v-for="item in roleList" :value="item.roleId" :key="item.roleId">{{ item.roleName }}</Option>
                   </Select>
                 </FormItem>
             </Form>
@@ -467,7 +467,7 @@ export default {
       this.getUserList();
     },
     changePage(v) {
-      this.searchForm.pageNumber = v;
+      this.searchForm.pageNum = v;
       this.getUserList();
       this.clearSelectAll();
     },
@@ -484,7 +484,7 @@ export default {
     getUserList() {
       // 多条件搜索用户列表
       this.loading = true;
-      this.getRequest("/user/getByCondition", this.searchForm).then(res => {
+      this.postRequest("/admin/queryAdminPage", this.searchForm).then(res => {
         this.loading = false;
         if (res.code === this.$statusCode.success) {
           this.data = res.data.list;
@@ -545,10 +545,10 @@ export default {
     submitUser() {
       this.$refs.userForm.validate(valid => {
         if (valid) {
-          let url = "/user/admin/add";
+          let url = "/admin/admin/add";
           if (this.modalType === 1) {
             // 编辑用户
-            url = "/user/admin/edit";
+            url = "/admin/admin/edit";
           }
           if (this.modalType === 0) {
             if (
@@ -640,7 +640,7 @@ export default {
         title: "确认启用",
         content: "您确认要启用用户 " + v.username + " ?",
         onOk: () => {
-          this.postRequest("/user/admin/enable/" + v.id).then(res => {
+          this.postRequest("/admin/admin/enable/" + v.id).then(res => {
             if (res.success === true) {
               this.$Message.success("操作成功");
               this.init();
@@ -654,7 +654,7 @@ export default {
         title: "确认禁用",
         content: "您确认要禁用用户 " + v.username + " ?",
         onOk: () => {
-          this.postRequest("/user/admin/disable/" + v.id).then(res => {
+          this.postRequest("/admin/admin/disable/" + v.id).then(res => {
             if (res.success === true) {
               this.$Message.success("操作成功");
               this.init();
@@ -668,7 +668,7 @@ export default {
         title: "确认删除",
         content: "您确认要删除用户 " + v.username + " ?",
         onOk: () => {
-          this.deleteRequest("/user/delByIds", { ids: v.id }).then(res => {
+          this.deleteRequest("/admin/delByIds", { ids: v.id }).then(res => {
             if (res.success === true) {
               this.$Message.success("删除成功");
               this.init();

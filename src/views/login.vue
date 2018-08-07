@@ -165,16 +165,16 @@ export default {
         this.$refs.usernameLoginForm.validate(valid => {
           if (valid) {
             this.loading = true;
-            this.postRequest("/login", {
-              username: this.form.username,
-              password: this.form.password,
-              saveLogin: this.saveLogin
-            }).then(res => {
+            var formData = new FormData();
+            formData.append('username', this.form.username);
+            formData.append('password', this.form.password);
+            formData.append('saveLogin', this.saveLogin);
+            this.postRequest("/login", formData).then(res => {
 
               if (res.code === this.$statusCode.success) {
                 setStore("accessToken", res.data.accessToken);
                 // 获取用户信息
-                this.getRequest("/user/info").then(res => {
+                this.getRequest("/admin/info").then(res => {
 
                   if (res.code === this.$statusCode.success) {
                     // 避免超过大小限制
