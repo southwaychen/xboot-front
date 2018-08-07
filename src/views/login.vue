@@ -171,12 +171,12 @@ export default {
               saveLogin: this.saveLogin
             }).then(res => {
 
-              if (res.code === '00000000') {
+              if (res.code === this.$statusCode.success) {
                 setStore("accessToken", res.data.accessToken);
                 // 获取用户信息
                 this.getRequest("/user/info").then(res => {
 
-                  if (res.code === '00000000') {
+                  if (res.code === this.$statusCode.success) {
                     // 避免超过大小限制
                     delete res.data.permissions;
                     if (this.saveLogin) {
