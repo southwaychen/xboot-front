@@ -123,7 +123,7 @@
                 </FormItem>
                 <FormItem label="角色分配" prop="roles">
                   <Select v-model="userForm.roles" multiple @on-change="selectRoles">
-                      <Option v-for="item in roleList" :value="{roleId:item.roleId}" :key="item.roleId">{{ item.roleName }}</Option>
+                      <Option v-for="item in roleList" :value="item.roleId" :key="item.roleId">{{ item.roleName }}</Option>
                   </Select>
                 </FormItem>
             </Form>
