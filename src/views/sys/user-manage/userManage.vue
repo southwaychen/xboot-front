@@ -123,7 +123,7 @@
                 </FormItem>
                 <FormItem label="角色分配" prop="roles">
                   <Select v-model="userForm.roles" multiple @on-change="selectRoles">
-                      <Option v-for="item in roleList" :value="item.roleId" :key="item.roleId">{{ item.roleName }}</Option>
+                      <Option v-for="item in roleList" :value="{roleId:item.roleId}" :key="item.roleId">{{ item.roleName }}</Option>
                   </Select>
                 </FormItem>
             </Form>
@@ -543,12 +543,14 @@ export default {
       this.userModalVisible = false;
     },
     submitUser() {
+
       this.$refs.userForm.validate(valid => {
         if (valid) {
-          let url = "/admin/admin/add";
+            debugger
+          let url = "/admin/addAdmin";
           if (this.modalType === 1) {
             // 编辑用户
-            url = "/admin/admin/edit";
+            url = "/admin/editAdmin";
           }
           if (this.modalType === 0) {
             if (
@@ -566,7 +568,7 @@ export default {
           this.submitLoading = true;
           this.postRequest(url, this.userForm).then(res => {
             this.submitLoading = false;
-            if (res.success === true) {
+            if (res.code === this.$statusCode.success) {
               this.$Message.success("操作成功");
               this.init();
               this.userModalVisible = false;
@@ -602,11 +604,11 @@ export default {
       return true;
     },
     handleSuccess(res, file) {
-      if (res.success === true) {
+      if (res.code === this.$statusCode.success) {
         file.url = res.result;
-        this.userForm.avatar = res.result;
+        this.userForm.avatar = res.data;
       } else {
-        this.$Message.error(res.message);
+        this.$Message.error(res.msg);
       }
     },
     addUser() {
@@ -616,21 +618,22 @@ export default {
       this.userModalVisible = true;
     },
     edit(v) {
+        debugger
       this.modalType = 1;
       this.modalTitle = "编辑用户";
       this.$refs.userForm.resetFields();
       // 转换null为""
-      for (let attr in v) {
+      /*for (let attr in v) {
         if (v[attr] === null) {
           v[attr] = "";
         }
-      }
+      }*/
       let str = JSON.stringify(v);
       let userInfo = JSON.parse(str);
       this.userForm = userInfo;
       let selectRolesId = [];
       this.userForm.roles.forEach(function(e) {
-        selectRolesId.push(e.id);
+        selectRolesId.push(e);
       });
       this.userForm.roles = selectRolesId;
       this.userModalVisible = true;
