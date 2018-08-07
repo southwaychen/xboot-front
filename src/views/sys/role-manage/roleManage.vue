@@ -21,7 +21,7 @@
                         <Table :loading="loading" border :columns="columns" :data="data" ref="table" sortable="custom" @on-sort-change="changeSort" @on-selection-change="changeSelect"></Table>
                     </Row>
                     <Row type="flex" justify="end" class="code-row-bg page">
-                        <Page :current="this.pageNumber" :total="total" :page-size="this.pageSize" @on-change="changePage" @on-page-size-change="changePageSize" :page-size-opts="[10,20,50,100]" size="small" show-total show-elevator show-sizer></Page>
+                        <Page :current="this.pageNum" :total="total" :page-size="this.pageSize" @on-change="changePage" @on-page-size-change="changePageSize" :page-size-opts="[10,20,50,100]" size="small" show-total show-elevator show-sizer></Page>
                     </Row>
                 </Card>
             </Col>
@@ -80,18 +80,18 @@ export default {
         },
         {
           title: "角色名称",
-          key: "name",
+          key: "roleName",
           sortable: true
         },
         {
           title: "创建时间",
-          key: "createTime",
+          key: "createdTime",
           sortable: true,
           sortType: "desc"
         },
         {
           title: "更新时间",
-          key: "updateTime",
+          key: "updatedTime",
           sortable: true
         },
         {
@@ -207,7 +207,7 @@ export default {
         }
       ],
       data: [],
-      pageNumber: 1,
+      pageNum: 1,
       pageSize: 10,
       total: 0,
       permData: [],
@@ -223,7 +223,7 @@ export default {
       this.getPermList();
     },
     changePage(v) {
-      this.pageNumber = v;
+      this.pageNum = v;
       this.getRoleList();
       this.clearSelectAll();
     },
@@ -242,15 +242,15 @@ export default {
     getRoleList() {
       this.loading = true;
       let params = {
-        pageNumber: this.pageNumber,
+        pageNum: this.pageNum,
         pageSize: this.pageSize,
-        sort: "createTime"
+        sort: "createdTime"
       };
       this.getRequest("/role/getAllByPage", params).then(res => {
         this.loading = false;
-        if (res.success === true) {
-          this.data = res.result.content;
-          this.total = res.result.totalElements;
+        if (res.code === this.$statusCode.success) {
+          this.data = res.data.list;
+          this.total = res.data.total;
         }
       });
     },
@@ -258,9 +258,9 @@ export default {
       this.treeLoading = true;
       this.getRequest("/permission/getAllList").then(res => {
         this.treeLoading = false;
-        if (res.success === true) {
-          this.deleteDisableNode(res.result);
-          this.permData = res.result;
+        if (res.success === this.$statusCode.success) {
+          this.deleteDisableNode(res.data);
+          this.permData = res.data;
         }
       });
     },

@@ -29,6 +29,12 @@ Vue.prototype.putRequest = putRequest;
 Vue.prototype.deleteRequest = deleteRequest;
 Vue.prototype.uploadFileRequest = uploadFileRequest;
 
+
+//状态码定义
+Vue.prototype.$statusCode = {
+  "success": "00000000",
+};
+
 /* eslint-disable no-new */
 new Vue({
     el: '#app',

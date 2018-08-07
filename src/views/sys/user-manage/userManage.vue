@@ -175,9 +175,9 @@ export default {
         sex: "",
         type: "",
         status: "",
-        pageNumber: 1,
+        pageNum: 1,
         pageSize: 10,
-        sort: "createTime",
+        sort: "createdTime",
         order: "desc",
         startDate: "",
         endDate: ""
@@ -486,7 +486,7 @@ export default {
       this.loading = true;
       this.getRequest("/user/getByCondition", this.searchForm).then(res => {
         this.loading = false;
-        if (res.code === '00000000') {
+        if (res.code === this.$statusCode.success) {
           this.data = res.data.list;
           this.total = res.data.total;
         }
@@ -514,7 +514,7 @@ export default {
     },
     getRoleList() {
       this.getRequest("/role/getAllList").then(res => {
-        if (res.code === '00000000') {
+        if (res.code === this.$statusCode.success) {
           this.roleList = res.data;
         }
       });
