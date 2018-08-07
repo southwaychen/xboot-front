@@ -546,7 +546,6 @@ export default {
 
       this.$refs.userForm.validate(valid => {
         if (valid) {
-            debugger
           let url = "/admin/addAdmin";
           if (this.modalType === 1) {
             // 编辑用户
