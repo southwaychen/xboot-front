@@ -123,7 +123,7 @@
                 </FormItem>
                 <FormItem label="角色分配" prop="roles">
                   <Select v-model="userForm.roles" multiple @on-change="selectRoles">
-                      <Option v-for="item in roleList" :value="{roleId:item.roleId}" :key="item.roleId">{{ item.roleName }}</Option>
+                      <Option v-for="item in roleList" :value="item.roleId" :key="item.roleId">{{ item.roleName }}</Option>
                   </Select>
                 </FormItem>
             </Form>
@@ -140,8 +140,20 @@
 
 <script>
 import { getStore } from "@/utils/storage";
+// string 转 object
+const string2Object = str => {
+  return JSON.stringify(str);
+}
+// object 转 string
+const object2String = obj => {
+  return JSON.stringify(obj)
+}
 export default {
   name: "user-manage",
+  filters: {
+    string2Object,
+    object2String
+  },
   data() {
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
@@ -538,7 +550,10 @@ export default {
         this.getUserList();
       }
     },
-    selectRoles(v) {},
+    selectRoles(v) {
+      //console.log(v)
+
+    },
     cancelUser() {
       this.userModalVisible = false;
     },
@@ -621,17 +636,17 @@ export default {
       this.modalTitle = "编辑用户";
       this.$refs.userForm.resetFields();
       // 转换null为""
-      /*for (let attr in v) {
+      for (let attr in v) {
         if (v[attr] === null) {
           v[attr] = "";
         }
-      }*/
+      }
       let str = JSON.stringify(v);
       let userInfo = JSON.parse(str);
       this.userForm = userInfo;
       let selectRolesId = [];
       this.userForm.roles.forEach(function(e) {
-        selectRolesId.push(e);
+        selectRolesId.push(e.roleId);
       });
       this.userForm.roles = selectRolesId;
       this.userModalVisible = true;
