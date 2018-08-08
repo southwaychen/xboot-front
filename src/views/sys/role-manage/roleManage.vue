@@ -248,7 +248,7 @@ export default {
       };
       this.getRequest("/role/getAllByPage", params).then(res => {
         this.loading = false;
-        if (res.code === this.$statusCode.success) {
+        if (res.code === this.$StatusCode.success) {
           this.data = res.data.list;
           this.total = res.data.total;
         }
@@ -258,7 +258,7 @@ export default {
       this.treeLoading = true;
       this.getRequest("/permission/getAllList").then(res => {
         this.treeLoading = false;
-        if (res.success === this.$statusCode.success) {
+        if (res.success === this.$StatusCode.success) {
           this.deleteDisableNode(res.data);
           this.permData = res.data;
         }

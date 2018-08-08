@@ -31,7 +31,7 @@ Vue.prototype.uploadFileRequest = uploadFileRequest;
 
 
 //状态码定义
-Vue.prototype.$statusCode = {
+Vue.prototype.$StatusCode = {
   "success": "00000000",
 };
 

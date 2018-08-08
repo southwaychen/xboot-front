@@ -171,12 +171,12 @@ export default {
             formData.append('saveLogin', this.saveLogin);
             this.postRequest("/login", formData).then(res => {
 
-              if (res.code === this.$statusCode.success) {
+              if (res.code === this.$StatusCode.success) {
                 setStore("accessToken", res.data.accessToken);
                 // 获取用户信息
                 this.getRequest("/admin/queryAdminInfo").then(res => {
 
-                  if (res.code === this.$statusCode.success) {
+                  if (res.code === this.$StatusCode.success) {
                     // 避免超过大小限制
                     delete res.data.permissions;
                     if (this.saveLogin) {

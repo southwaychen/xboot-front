@@ -123,7 +123,7 @@
                 </FormItem>
                 <FormItem label="角色分配" prop="roles">
                   <Select v-model="userForm.roles" multiple @on-change="selectRoles">
-                      <Option v-for="item in roleList" :value="item.roleId" :key="item.roleId">{{ item.roleName }}</Option>
+                      <Option v-for="item in roleList" :value="{roleId:item.roleId}" :key="item.roleId">{{ item.roleName }}</Option>
                   </Select>
                 </FormItem>
             </Form>
@@ -486,7 +486,7 @@ export default {
       this.loading = true;
       this.postRequest("/admin/queryAdminPage", this.searchForm).then(res => {
         this.loading = false;
-        if (res.code === this.$statusCode.success) {
+        if (res.code === this.$StatusCode.success) {
           this.data = res.data.list;
           this.total = res.data.total;
         }
@@ -514,7 +514,7 @@ export default {
     },
     getRoleList() {
       this.getRequest("/role/getAllList").then(res => {
-        if (res.code === this.$statusCode.success) {
+        if (res.code === this.$StatusCode.success) {
           this.roleList = res.data;
         }
       });
@@ -567,7 +567,7 @@ export default {
           this.submitLoading = true;
           this.postRequest(url, this.userForm).then(res => {
             this.submitLoading = false;
-            if (res.code === this.$statusCode.success) {
+            if (res.code === this.$StatusCode.success) {
               this.$Message.success("操作成功");
               this.init();
               this.userModalVisible = false;
@@ -603,7 +603,7 @@ export default {
       return true;
     },
     handleSuccess(res, file) {
-      if (res.code === this.$statusCode.success) {
+      if (res.code === this.$StatusCode.success) {
         file.url = res.result;
         this.userForm.avatar = res.data;
       } else {
