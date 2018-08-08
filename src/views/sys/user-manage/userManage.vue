@@ -33,7 +33,7 @@
                               <Form-item label="用户状态" prop="status">
                                 <Select v-model="searchForm.status" placeholder="请选择" clearable style="width: 200px">
                                   <Option value="0">正常</Option>
-                                  <Option value="-1">禁用</Option>
+                                  <Option value="1">禁用</Option>
                                 </Select>
                               </Form-item>
                               <Form-item label="创建时间">
@@ -304,10 +304,10 @@ export default {
                       color: "green"
                     }
                   },
-                  "正常启用"
+                  "启用"
                 )
               ]);
-            } else if (params.row.status === -1) {
+            } else if (params.row.status === 1) {
               return h("div", [
                 h(
                   "Tag",
@@ -324,20 +324,20 @@ export default {
           },
           filters: [
             {
-              label: "正常启用",
+              label: "启用",
               value: 0
             },
             {
               label: "禁用",
-              value: -1
+              value: 1
             }
           ],
           filterMultiple: false,
           filterMethod(value, row) {
             if (value === 0) {
               return row.status === 0;
-            } else if (value === -1) {
-              return row.status === -1;
+            } else if (value === 1) {
+              return row.status === 1;
             }
           }
         },
@@ -528,7 +528,6 @@ export default {
       this.getRequest("/role/getAllList").then(res => {
         if (res.code === this.$StatusCode.success) {
           this.roleList = res.data;
-          console.log(this.roleList)
         }
       });
     },
@@ -693,8 +692,10 @@ export default {
         title: "确认删除",
         content: "您确认要删除用户 " + v.username + " ?",
         onOk: () => {
-          this.deleteRequest("/admin/delByIds", { ids: v.id }).then(res => {
-            if (res.success === true) {
+            console.log({ ids: v.adminId })
+          this.deleteRequest("/admin/delByIds", { ids: v.adminId }).then(res => {
+              debugger
+            if (res.code === this.$StatusCode.success) {
               this.$Message.success("删除成功");
               this.init();
             }
@@ -721,6 +722,7 @@ export default {
       this.$refs.table.selectAll(false);
     },
     delAll() {
+        debugger
       if (this.selectCount <= 0) {
         this.$Message.warning("您还未选择要删除的数据");
         return;
@@ -731,7 +733,7 @@ export default {
         onOk: () => {
           let ids = "";
           this.selectList.forEach(function(e) {
-            ids += e.id + ",";
+            ids += e.adminId + ",";
           });
           ids = ids.substring(0, ids.length - 1);
           this.deleteRequest("/user/delByIds", { ids: ids }).then(res => {
