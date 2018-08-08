@@ -57,7 +57,7 @@ export default {
       loading: true,
       treeLoading: true,
       submitPermLoading: false,
-      sortColumn: "createTime",
+      sortColumn: "createdTime",
       sortType: "desc",
       modalType: 0,
       roleModalVisible: false,
@@ -246,7 +246,7 @@ export default {
         pageSize: this.pageSize,
         sort: "createdTime"
       };
-      this.getRequest("/role/getAllByPage", params).then(res => {
+      this.postRequest("/role/queryRolePage", params).then(res => {
         this.loading = false;
         if (res.code === this.$StatusCode.success) {
           this.data = res.data.list;
@@ -256,7 +256,7 @@ export default {
     },
     getPermList() {
       this.treeLoading = true;
-      this.getRequest("/permission/getAllList").then(res => {
+      this.getRequest("/permission/queryPermissionList").then(res => {
         this.treeLoading = false;
         if (res.success === this.$StatusCode.success) {
           this.deleteDisableNode(res.data);
@@ -283,7 +283,7 @@ export default {
     submitRole() {
       this.$refs.roleForm.validate(valid => {
         if (valid) {
-          let url = "/role/save";
+          let url = "/role/add";
           if (this.modalType === 1) {
             // 编辑用户
             url = "/role/edit";
@@ -291,7 +291,7 @@ export default {
           this.submitLoading = true;
           this.postRequest(url, this.roleForm).then(res => {
             this.submitLoading = false;
-            if (res.success === true) {
+            if (res.code === this.$StatusCode.success) {
               this.$Message.success("操作成功");
               this.getRoleList();
               this.roleModalVisible = false;
@@ -304,7 +304,7 @@ export default {
       this.modalType = 0;
       this.modalTitle = "添加角色";
       this.roleForm = {
-        name: "",
+        roleName: "",
         access: null
       };
       this.roleModalVisible = true;
