@@ -528,6 +528,7 @@ export default {
       this.getRequest("/role/getAllList").then(res => {
         if (res.code === this.$StatusCode.success) {
           this.roleList = res.data;
+          console.log(this.roleList)
         }
       });
     },
@@ -579,6 +580,14 @@ export default {
               return;
             }
           }
+          let roles = [];
+          let obj ={};
+          debugger;
+          this.userForm.roles.forEach(function(e){
+                obj.roleId = e;
+                roles.push(obj)
+          })
+          this.userForm.roles = roles;
           this.submitLoading = true;
           this.postRequest(url, this.userForm).then(res => {
             this.submitLoading = false;
@@ -636,11 +645,11 @@ export default {
       this.modalTitle = "编辑用户";
       this.$refs.userForm.resetFields();
       // 转换null为""
-      for (let attr in v) {
+      /*for (let attr in v) {
         if (v[attr] === null) {
           v[attr] = "";
         }
-      }
+      }*/
       let str = JSON.stringify(v);
       let userInfo = JSON.parse(str);
       this.userForm = userInfo;
@@ -656,9 +665,9 @@ export default {
         title: "确认启用",
         content: "您确认要启用用户 " + v.username + " ?",
         onOk: () => {
-          this.postRequest("/admin/admin/enable/" + v.id).then(res => {
-            if (res.success === true) {
-              this.$Message.success("操作成功");
+          this.postRequest("/admin/enable/" + v.adminId).then(res => {
+            if (res.code === this.$StatusCode.success) {
+              this.$Message.success(res.msg);
               this.init();
             }
           });
@@ -670,9 +679,9 @@ export default {
         title: "确认禁用",
         content: "您确认要禁用用户 " + v.username + " ?",
         onOk: () => {
-          this.postRequest("/admin/admin/disable/" + v.id).then(res => {
-            if (res.success === true) {
-              this.$Message.success("操作成功");
+          this.postRequest("/admin/disable/" + v.adminId).then(res => {
+            if (res.code === this.$StatusCode.success) {
+              this.$Message.success(res.msg);
               this.init();
             }
           });
