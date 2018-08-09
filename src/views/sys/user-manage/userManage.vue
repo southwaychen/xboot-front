@@ -525,7 +525,7 @@ export default {
       this.init();
     },
     getRoleList() {
-      this.getRequest("/role/getAllList").then(res => {
+      this.getRequest("/role/queryRoleList").then(res => {
         if (res.code === this.$StatusCode.success) {
           this.roleList = res.data;
         }
