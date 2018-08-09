@@ -405,7 +405,7 @@ export default {
       });
     },
     editPerm(v) {
-      this.editRolePermId = v.permid;
+      this.editRolePermId = v.roleId;
       // 匹配勾选
       let rolePerms = v.permissions;
       // 递归判断子节点
@@ -461,10 +461,11 @@ export default {
       let permIds = "";
       let selectedNodes = this.$refs.tree.getSelectedNodes();
       selectedNodes.forEach(function(e) {
-        permIds += e.id + ",";
+        permIds += e.permId + ",";
       });
       permIds = permIds.substring(0, permIds.length - 1);
-      this.postRequest("/role/editRolePerm/" + this.editRolePermId, {
+      debugger
+      this.postRequest("/role/updateRolePerm/" + this.editRolePermId, {
         permIds: permIds
       }).then(res => {
         this.submitPermLoading = false;

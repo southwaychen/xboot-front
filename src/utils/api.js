@@ -62,7 +62,8 @@ export const getRequest = (url, params) => {
         url: `${base}${url}`,
         params: params,
         headers: {
-            'accessToken': accessToken
+          'x-requested-with':'XMLHttpRequest',
+          'accessToken': accessToken
         }
     });
 };
@@ -73,16 +74,16 @@ export const postRequest = (url, params) => {
         method: 'post',
         url: `${base}${url}`,
         data: params,
-        /*transformRequest: [function (data) {
+        transformRequest: [function (data) {
             let ret = '';
             for (let it in data) {
                 ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&';
             }
             return ret;
-        }],*/
+        }],
         headers: {
-            /*'Content-Type': 'application/x-www-form-urlencoded',
-            'x-requested-with':'XMLHttpRequest',*/
+           'Content-Type': 'application/x-www-form-urlencoded',
+            'x-requested-with':'XMLHttpRequest',
             'accessToken': accessToken
         }
     });
@@ -95,6 +96,7 @@ export const deleteRequest = (url, params) => {
     url: `${base}${url}`,
     params: params,
     headers: {
+      'x-requested-with':'XMLHttpRequest',
       'accessToken': accessToken
     }
   });
@@ -115,6 +117,7 @@ export const putRequest = (url, params) => {
         }],
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
+            'x-requested-with':'XMLHttpRequest',
             'accessToken': accessToken
         }
     });
