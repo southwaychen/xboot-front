@@ -257,9 +257,8 @@ export default {
     getPermList() {
       this.treeLoading = true;
       this.getRequest("/permission/queryList").then(res => {
-        debugger;
         this.treeLoading = false;
-        if (res.success === this.$StatusCode.success) {
+        if (res.code === this.$StatusCode.success) {
           this.deleteDisableNode(res.data);
           this.permData = res.data;
         }
