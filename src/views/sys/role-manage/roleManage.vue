@@ -257,6 +257,7 @@ export default {
     getPermList() {
       this.treeLoading = true;
       this.getRequest("/permission/queryList").then(res => {
+        debugger;
         this.treeLoading = false;
         if (res.success === this.$StatusCode.success) {
           this.deleteDisableNode(res.data);
@@ -405,7 +406,7 @@ export default {
       });
     },
     editPerm(v) {
-      this.editRolePermId = v.id;
+      this.editRolePermId = v.permid;
       // 匹配勾选
       let rolePerms = v.permissions;
       // 递归判断子节点
@@ -430,7 +431,7 @@ export default {
     hasPerm(p, rolePerms) {
       let flag = false;
       for (let i = 0; i < rolePerms.length; i++) {
-        if (p.id === rolePerms[i].id) {
+        if (p.permId === rolePerms[i].permId) {
           flag = true;
           break;
         }
@@ -468,7 +469,7 @@ export default {
         permIds: permIds
       }).then(res => {
         this.submitPermLoading = false;
-        if (res.success === true) {
+        if (res.code === this.$StatusCode.success) {
           this.$Message.success("操作成功");
           this.getRoleList();
           this.permModalVisible = false;
