@@ -29,7 +29,7 @@
         <Modal :title="modalTitle" v-model="roleModalVisible" :mask-closable='false' :width="500">
           <Form ref="roleForm" :model="roleForm" :label-width="80" :rules="roleFormValidate">
             <FormItem label="角色名称" prop="name">
-              <Input v-model="roleForm.name" placeholder="按照Spring Security约定建议以‘ROLE_’开头"/>
+              <Input v-model="roleForm.roleName" placeholder="按照Spring Security约定建议以‘ROLE_’开头"/>
             </FormItem>
           </Form>
           <div slot="footer">
@@ -64,10 +64,10 @@ export default {
       permModalVisible: false,
       modalTitle: "",
       roleForm: {
-        name: ""
+        roleName: ""
       },
       roleFormValidate: {
-        name: [{ required: true, message: "角色名称不能为空", trigger: "blur" }]
+        roleName: [{ required: true, message: "角色名称不能为空", trigger: "blur" }]
       },
       submitLoading: false,
       selectList: [],
@@ -246,7 +246,7 @@ export default {
         pageSize: this.pageSize,
         sort: "createdTime"
       };
-      this.postRequest("/role/queryRolePage", params).then(res => {
+      this.postRequest("/role/queryPage", params).then(res => {
         this.loading = false;
         if (res.code === this.$StatusCode.success) {
           this.data = res.data.list;
@@ -286,7 +286,7 @@ export default {
           let url = "/role/add";
           if (this.modalType === 1) {
             // 编辑用户
-            url = "/role/edit";
+            url = "/role/update";
           }
           this.submitLoading = true;
           this.postRequest(url, this.roleForm).then(res => {
@@ -326,10 +326,10 @@ export default {
     remove(v) {
       this.$Modal.confirm({
         title: "确认删除",
-        content: "您确认要删除角色 " + v.name + " ?",
+        content: "您确认要删除角色 " + v.roleName + " ?",
         onOk: () => {
-          this.deleteRequest("/role/delAllByIds", { ids: v.id }).then(res => {
-            if (res.success === true) {
+          this.deleteRequest("/role/deleteBatch", { ids: v.roleId }).then(res => {
+            if (res.code === this.$StatusCode.success) {
               this.$Message.success("删除成功");
               this.getRoleList();
             }
@@ -340,7 +340,7 @@ export default {
     setDefault(v) {
       this.$Modal.confirm({
         title: "确认设置",
-        content: "您确认要设置所选的 " + v.name + " 为注册用户默认角色?",
+        content: "您确认要设置所选的 " + v.roleName + " 为注册用户默认角色?",
         onOk: () => {
           let params = {
             id: v.id,
@@ -358,7 +358,7 @@ export default {
     cancelDefault(v) {
       this.$Modal.confirm({
         title: "确认取消",
-        content: "您确认要取消所选的 " + v.name + " 角色为默认?",
+        content: "您确认要取消所选的 " + v.roleName + " 角色为默认?",
         onOk: () => {
           let params = {
             id: v.id,
@@ -391,11 +391,11 @@ export default {
         onOk: () => {
           let ids = "";
           this.selectList.forEach(function(e) {
-            ids += e.id + ",";
+            ids += e.roleId + ",";
           });
           ids = ids.substring(0, ids.length - 1);
-          this.deleteRequest("/role/delAllByIds", { ids: ids }).then(res => {
-            if (res.success === true) {
+          this.deleteRequest("/role/deleteBatch", { ids: ids }).then(res => {
+            if (res.code === this.$StatusCode.success) {
               this.$Message.success("删除成功");
               this.clearSelectAll();
               this.getRoleList();

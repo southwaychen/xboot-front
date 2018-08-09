@@ -81,11 +81,23 @@ export const postRequest = (url, params) => {
             return ret;
         }],*/
         headers: {
-            'Content-Type': 'application/json',
-            'x-requested-with':'XMLHttpRequest',
+            /*'Content-Type': 'application/x-www-form-urlencoded',
+            'x-requested-with':'XMLHttpRequest',*/
             'accessToken': accessToken
         }
     });
+};
+
+export const deleteRequest = (url, params) => {
+  let accessToken = getStore('accessToken');
+  return axios({
+    method: 'delete',
+    url: `${base}${url}`,
+    params: params,
+    headers: {
+      'accessToken': accessToken
+    }
+  });
 };
 
 export const putRequest = (url, params) => {
@@ -108,17 +120,7 @@ export const putRequest = (url, params) => {
     });
 };
 
-export const deleteRequest = (url, params) => {
-    let accessToken = getStore('accessToken');
-    return axios({
-        method: 'delete',
-        url: `${base}${url}`,
-        params: params,
-        headers: {
-            'accessToken': accessToken
-        }
-    });
-};
+
 
 export const uploadFileRequest = (url, params) => {
     let accessToken = getStore('accessToken');

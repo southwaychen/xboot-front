@@ -496,7 +496,7 @@ export default {
     getUserList() {
       // 多条件搜索用户列表
       this.loading = true;
-      this.postRequest("/admin/queryAdminPage", this.searchForm).then(res => {
+      this.postRequest("/admin/queryPage", this.searchForm).then(res => {
         this.loading = false;
         if (res.code === this.$StatusCode.success) {
           this.data = res.data.list;
@@ -525,7 +525,7 @@ export default {
       this.init();
     },
     getRoleList() {
-      this.getRequest("/role/queryRoleList").then(res => {
+      this.postRequest("/role/queryList").then(res => {
         if (res.code === this.$StatusCode.success) {
           this.roleList = res.data;
         }
@@ -561,10 +561,10 @@ export default {
 
       this.$refs.userForm.validate(valid => {
         if (valid) {
-          let url = "/admin/addAdmin";
+          let url = "/admin/add";
           if (this.modalType === 1) {
             // 编辑用户
-            url = "/admin/editAdmin";
+            url = "/admin/update";
           }
           if (this.modalType === 0) {
             if (
@@ -693,8 +693,7 @@ export default {
         content: "您确认要删除用户 " + v.username + " ?",
         onOk: () => {
             console.log({ ids: v.adminId })
-          this.deleteRequest("/admin/delByIds", { ids: v.adminId }).then(res => {
-              debugger
+          this.deleteRequest("/admin/deleteBatch", { ids: v.adminId }).then(res => {
             if (res.code === this.$StatusCode.success) {
               this.$Message.success("删除成功");
               this.init();
@@ -736,7 +735,7 @@ export default {
             ids += e.adminId + ",";
           });
           ids = ids.substring(0, ids.length - 1);
-          this.deleteRequest("/user/delByIds", { ids: ids }).then(res => {
+          this.deleteRequest("/admin/deleteBatch", { ids: ids }).then(res => {
             if (res.success === true) {
               this.$Message.success("删除成功");
               this.clearSelectAll();
