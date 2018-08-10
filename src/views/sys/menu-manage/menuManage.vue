@@ -226,12 +226,12 @@ export default {
     },
     getAllList() {
       this.loading = true;
-      this.getRequest("/permission/getAllList").then(res => {
+      this.getRequest("/permission/queryList").then(res => {
         this.loading = false;
-        if (res.success === true) {
+        if (res.code === this.$StatusCode.success) {
           // 仅展开2级
           if (!this.expandAll) {
-            res.result.forEach(function(e) {
+            res.data.forEach(function(e) {
               if (e.children && e.children.length > 0) {
                 e.children.forEach(function(c) {
                   if (c.level === 2) {
@@ -241,7 +241,7 @@ export default {
               }
             });
           }
-          this.data = res.result;
+          this.data = res.data;
         }
       });
     },
@@ -307,7 +307,7 @@ export default {
           }
           this.postRequest("/permission/edit", this.menuForm).then(res => {
             this.submitLoading = false;
-            if (res.success === true) {
+            if (res.code === this.$StatusCode.success) {
               this.$Message.success("编辑成功");
               this.init();
               this.menuModalVisible = false;
@@ -340,7 +340,7 @@ export default {
           }
           this.postRequest("/permission/add", this.menuFormAdd).then(res => {
             this.submitLoading = false;
-            if (res.success === true) {
+            if (res.code === this.$StatusCode.success) {
               this.$Message.success("添加成功");
               this.init();
               this.menuModalVisible = false;
