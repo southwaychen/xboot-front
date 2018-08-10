@@ -328,7 +328,7 @@ export default {
         title: "确认删除",
         content: "您确认要删除角色 " + v.roleName + " ?",
         onOk: () => {
-          this.deleteRequest("/role/deleteBatch", { ids: v.roleId }).then(res => {
+          this.postRequest("/role/deleteBatch", { ids: [v.roleId] }).then(res => {
             if (res.code === this.$StatusCode.success) {
               this.$Message.success("删除成功");
               this.getRoleList();
@@ -389,12 +389,12 @@ export default {
         title: "确认删除",
         content: "您确认要删除所选的 " + this.selectCount + " 条数据?",
         onOk: () => {
-          let ids = "";
+          let ids = [];
           this.selectList.forEach(function(e) {
-            ids += e.roleId + ",";
+            ids.push(e.roleId);
           });
-          ids = ids.substring(0, ids.length - 1);
-          this.deleteRequest("/role/deleteBatch", { ids: ids }).then(res => {
+          //ids = ids.substring(0, ids.length - 1);
+          this.postRequest("/role/deleteBatch", { ids: ids }).then(res => {
             if (res.code === this.$StatusCode.success) {
               this.$Message.success("删除成功");
               this.clearSelectAll();
@@ -458,14 +458,14 @@ export default {
     },
     submitPermEdit() {
       this.submitPermLoading = true;
-      let permIds = "";
+      let permIds = [];
       let selectedNodes = this.$refs.tree.getSelectedNodes();
       selectedNodes.forEach(function(e) {
-        permIds += e.permId + ",";
+        permIds.push( e.permId);
       });
-      permIds = permIds.substring(0, permIds.length - 1);
-      debugger
-      this.postRequest("/role/updateRolePerm/" + this.editRolePermId, {
+      //permIds = permIds.substring(0, permIds.length - 1);
+      this.postRequest("/role/updateRolePerm/" , {
+        'roleId': this.editRolePermId,
         permIds: permIds
       }).then(res => {
         this.submitPermLoading = false;

@@ -692,8 +692,7 @@ export default {
         title: "确认删除",
         content: "您确认要删除用户 " + v.username + " ?",
         onOk: () => {
-            console.log({ ids: v.adminId })
-          this.deleteRequest("/admin/deleteBatch", { ids: v.adminId }).then(res => {
+          this.postRequest("/admin/deleteBatch", { ids: [v.adminId] }).then(res => {
             if (res.code === this.$StatusCode.success) {
               this.$Message.success("删除成功");
               this.init();
@@ -730,12 +729,12 @@ export default {
         title: "确认删除",
         content: "您确认要删除所选的 " + this.selectCount + " 条数据?",
         onOk: () => {
-          let ids = "";
+          let ids = [];
           this.selectList.forEach(function(e) {
-            ids += e.adminId + ",";
+            ids.push( e.adminId);
           });
-          ids = ids.substring(0, ids.length - 1);
-          this.deleteRequest("/admin/deleteBatch", { ids: ids }).then(res => {
+         // ids = ids.substring(0, ids.length - 1);
+          this.postRequest("/admin/deleteBatch", { ids: ids }).then(res => {
             if (res.success === true) {
               this.$Message.success("删除成功");
               this.clearSelectAll();
