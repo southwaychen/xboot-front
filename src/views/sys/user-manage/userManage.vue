@@ -525,7 +525,7 @@ export default {
       this.init();
     },
     getRoleList() {
-      this.postRequest("/role/queryList").then(res => {
+      this.postRequest("/role/queryList",{}).then(res => {
         if (res.code === this.$StatusCode.success) {
           this.roleList = res.data;
         }
@@ -581,7 +581,6 @@ export default {
           }
           let roles = [];
           let obj ={};
-          debugger;
           this.userForm.roles.forEach(function(e){
                 obj.roleId = e;
                 roles.push(obj)
@@ -720,7 +719,6 @@ export default {
       this.$refs.table.selectAll(false);
     },
     delAll() {
-        debugger
       if (this.selectCount <= 0) {
         this.$Message.warning("您还未选择要删除的数据");
         return;
