@@ -251,6 +251,8 @@ export default {
         if (res.code === this.$StatusCode.success) {
           this.data = res.data.list;
           this.total = res.data.total;
+        }else{
+          this.$Message.error(res.msg);
         }
       });
     },
@@ -261,6 +263,8 @@ export default {
         if (res.code === this.$StatusCode.success) {
           this.deleteDisableNode(res.data);
           this.permData = res.data;
+        }else{
+          this.$Message.error(res.msg);
         }
       });
     },
@@ -295,6 +299,8 @@ export default {
               this.$Message.success("操作成功");
               this.getRoleList();
               this.roleModalVisible = false;
+            }else{
+              this.$Message.error(res.msg);
             }
           });
         }
@@ -332,6 +338,8 @@ export default {
             if (res.code === this.$StatusCode.success) {
               this.$Message.success("删除成功");
               this.getRoleList();
+            }else{
+              this.$Message.error(res.msg);
             }
           });
         }
@@ -399,6 +407,8 @@ export default {
               this.$Message.success("删除成功");
               this.clearSelectAll();
               this.getRoleList();
+            }else{
+              this.$Message.error(res.msg);
             }
           });
         }
@@ -473,6 +483,8 @@ export default {
           this.$Message.success("操作成功");
           this.getRoleList();
           this.permModalVisible = false;
+        }else{
+          this.$Message.error(res.msg);
         }
       });
     },

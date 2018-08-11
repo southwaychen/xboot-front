@@ -501,6 +501,8 @@ export default {
         if (res.code === this.$StatusCode.success) {
           this.data = res.data.list;
           this.total = res.data.total;
+        }else{
+          this.$Message.error(res.msg);
         }
       });
     },
@@ -528,6 +530,8 @@ export default {
       this.postRequest("/role/queryList",{}).then(res => {
         if (res.code === this.$StatusCode.success) {
           this.roleList = res.data;
+        }else{
+          this.$Message.error(res.msg);
         }
       });
     },
@@ -593,6 +597,8 @@ export default {
               this.$Message.success("操作成功");
               this.init();
               this.userModalVisible = false;
+            }else{
+              this.$Message.error(res.msg);
             }
           });
         }
@@ -667,6 +673,8 @@ export default {
             if (res.code === this.$StatusCode.success) {
               this.$Message.success(res.msg);
               this.init();
+            }else{
+              this.$Message.error(res.msg);
             }
           });
         }
@@ -681,6 +689,8 @@ export default {
             if (res.code === this.$StatusCode.success) {
               this.$Message.success(res.msg);
               this.init();
+            }else{
+              this.$Message.error(res.msg);
             }
           });
         }
@@ -695,6 +705,8 @@ export default {
             if (res.code === this.$StatusCode.success) {
               this.$Message.success("删除成功");
               this.init();
+            }else{
+              this.$Message.error(res.msg);
             }
           });
         }

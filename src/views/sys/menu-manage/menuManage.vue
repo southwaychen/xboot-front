@@ -226,7 +226,7 @@ export default {
     },
     getAllList() {
       this.loading = true;
-      this.getRequest("/permission/queryList").then(res => {
+      this.postRequest("/permission/queryList",{}).then(res => {
         this.loading = false;
         if (res.code === this.$StatusCode.success) {
           // 仅展开2级
@@ -242,6 +242,8 @@ export default {
             });
           }
           this.data = res.data;
+        }else{
+          this.$Message.error(res.msg);
         }
       });
     },
@@ -311,6 +313,8 @@ export default {
               this.$Message.success("编辑成功");
               this.init();
               this.menuModalVisible = false;
+            }else{
+              this.$Message.error(res.msg);
             }
           });
         }
@@ -344,6 +348,8 @@ export default {
               this.$Message.success("添加成功");
               this.init();
               this.menuModalVisible = false;
+            }else{
+              this.$Message.error(res.msg);
             }
           });
         }

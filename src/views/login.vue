@@ -174,7 +174,7 @@ export default {
               if (res.code === this.$StatusCode.success) {
                 setStore("accessToken", res.data.accessToken);
                 // 获取用户信息
-                this.getRequest("/admin/queryInfo").then(res => {
+                this.postRequest("/admin/queryInfo").then(res => {
 
                   if (res.code === this.$StatusCode.success) {
                     // 避免超过大小限制

@@ -22,27 +22,11 @@ axios.interceptors.response.use(response => {
 
     // 根据返回的code值来做不同的处理(和后端约定)
     switch (data.code) {
-        case 401:
+        case '00000101':
             // 未登录 清除已登录状态
             Cookies.set('userInfo', '');
             setStore('accessToken', '');
             router.push('/login');
-            break;
-        case 403:
-            // 没有权限
-            if (data.message !== null) {
-                Message.error(data.message);
-            } else {
-                Message.error("未知错误");
-            }
-            break;
-        case 500:
-            // 错误
-            if (data.message !== null) {
-                Message.error(data.message);
-            } else {
-                Message.error("未知错误");
-            }
             break;
         default:
             return data;
