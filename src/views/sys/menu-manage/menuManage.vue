@@ -187,7 +187,7 @@ export default {
       addStatus: true,
       modalTitle: "",
       menuForm: {
-        id: "",
+        permId: "",
         parentId: "",
         buttonType: "",
         type: 0,
@@ -291,7 +291,7 @@ export default {
     submitEdit() {
       this.$refs.menuForm.validate(valid => {
         if (valid) {
-          if (!this.menuForm.id) {
+          if (!this.menuForm.permId) {
             this.$Message.warning("请先点击选择要修改的菜单节点");
             return;
           }
@@ -356,7 +356,7 @@ export default {
       });
     },
     addMenu() {
-      if (this.menuForm.id == "" || this.menuForm.id == null) {
+      if (this.menuForm.permId == "" || this.menuForm.permId == null) {
         this.$Message.warning("请先点击选择一个菜单权限节点");
         return;
       }
@@ -378,7 +378,7 @@ export default {
       }
       this.menuFormAdd = {
         type: type,
-        parentId: this.menuForm.id,
+        parentId: this.menuForm.permId,
         level: Number(this.menuForm.level) + 1,
         sortOrder: 1,
         buttonType: "",
@@ -412,17 +412,19 @@ export default {
         title: "确认删除",
         content: "您确认要删除所选的 " + this.selectCount + " 条数据?",
         onOk: () => {
-          let ids = "";
+          let ids = [];
           this.selectList.forEach(function(e) {
-            ids += e.id + ",";
+            ids.push(e.permId);
           });
           ids = ids.substring(0, ids.length - 1);
-          this.deleteRequest("/permission/delByIds", { ids: ids }).then(res => {
-            if (res.success === true) {
+          this.postRequest("/permission/deleteBatch", { ids: ids }).then(res => {
+            if (res.code === this.$StatusCode.success) {
               this.$Message.success("删除成功");
               this.selectList = [];
               this.selectCount = 0;
               this.init();
+            }else{
+              this.$Message.error(res.msg);
             }
           });
         }

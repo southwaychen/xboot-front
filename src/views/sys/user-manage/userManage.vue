@@ -745,10 +745,12 @@ export default {
           });
          // ids = ids.substring(0, ids.length - 1);
           this.postRequest("/admin/deleteBatch", { ids: ids }).then(res => {
-            if (res.success === true) {
+            if (res.code === this.$StatusCode.success) {
               this.$Message.success("删除成功");
               this.clearSelectAll();
               this.init();
+            }else{
+              this.$Message.error(res.msg);
             }
           });
         }
