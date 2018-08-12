@@ -307,7 +307,7 @@ export default {
             this.menuForm.icon = "";
             this.menuForm.component = "";
           }
-          this.postRequest("/permission/edit", this.menuForm).then(res => {
+          this.postRequest("/permission/update", this.menuForm).then(res => {
             this.submitLoading = false;
             if (res.code === this.$StatusCode.success) {
               this.$Message.success("编辑成功");
