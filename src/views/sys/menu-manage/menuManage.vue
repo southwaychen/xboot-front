@@ -416,7 +416,8 @@ export default {
           this.selectList.forEach(function(e) {
             ids.push(e.permId);
           });
-          ids = ids.substring(0, ids.length - 1);
+          //ids = ids.substring(0, ids.length - 1);
+          debugger;
           this.postRequest("/permission/deleteBatch", { ids: ids }).then(res => {
             if (res.code === this.$StatusCode.success) {
               this.$Message.success("删除成功");
